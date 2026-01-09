@@ -7,7 +7,7 @@
                     <burger-menu></burger-menu>
                 </div>
             @endauth
-            <a {{Route::is('home') ? 'active': ''}} href="{{ route('home')}}" class="flex items-center space-x-3 rtl:space-x-reverse md:order-7">
+            <a {{Route::is('diary') ? 'active': ''}} href="{{ route('diary')}}" class="flex items-center space-x-3 rtl:space-x-reverse md:order-7">
                 <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark">
                     Diary
@@ -38,7 +38,7 @@
                 </div>
 
                 @auth
-                    <user-menu :user="{{ json_encode(['name' => Auth::user()->name, 'email' => Auth::user()->email]) }}"></user-menu>
+                    <user-menu :user="{{ json_encode(['name' => Auth::user()->name, 'email' => Auth::user()->email, 'avatar_url' => Auth::user()->avatar_url]) }}"></user-menu>
                 @endauth
 
             </ul>

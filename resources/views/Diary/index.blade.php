@@ -5,12 +5,12 @@
 
    <div class="flex w-full justify-between flex-col bg-bgColor dark:bg-bgColor-dark rounded-2xl ">
 
-      <div class="my-4 px-5 w-full flex-col items-center gap-x-12 justify-between bg-bgSecColor dark:bg-bgSecColor-dark ">
+      {{-- <div class="my-4 px-5 w-full flex-col items-center gap-x-12 justify-between bg-bgSecColor dark:bg-bgSecColor-dark ">
          <div class="flex w-full justify-center items-center pt-4"><h1 class="font-semibold text-3xl text-textColor dark:text-textColor-dark">My notes</h1></div>
          @if ($userNotes->isEmpty())
             <h1>You have no notes yet</h1>
          @else
-         <div class="md:grid md:grid-cols-3 w-full gap-x-4 px-4 py-4">
+         <div class=" w-full gap-x-4 px-4 py-4">
             @foreach ($userNotes as $note)
                      
                <div class="border border-borderColor dark:border-borderColor-dark rounded-2xl p-3 mb-4 ">
@@ -66,52 +66,58 @@
             @endforeach
          </div>
          @endif
-      </div>
+      </div> --}}
       <div class="flex p-5 w-full ">
 
          @if($notes->isEmpty())
             <h1>There is no notes or an error</h1>
          @else
-            <div class="md:grid md:grid-cols-3 w-full gap-x-4 px-4 ">
+            <div class=" w-full gap-x-4 px-4 ">
                @foreach ($notes as $note)
-                  @if ($note->published && $note->user_id != Auth::id())
+                  @if ($note->published == true)
                      
-                     <div class="border border-borderColor dark:border-borderColor-dark rounded-2xl p-3 mb-4  ">
-                        <div class="flex w-full justify-end">
-                           <p >***</p>
-                        </div>
+                     <div class="border-b border-borderColor dark:border-borderColor-dark  py-3 px-1 mb-2   ">
+
                         {{-- Texts --}}
-                        <div class="flex justify-between pb-2 border-b border-borderColor dark:border-borderColor-dark ">
-                           {{-- <p class="text-sm mr-3">Note ID: {{$note->id}}</p> --}}
-                           <p class="text-sm mr-6"> {{$note->user->name}}</p>
-                           <div class="flex text-sm justify-end text-textColor dark:text-textColor-dark ">
-                              <p class="justify-end">{{ $note->published_at->diffForHumans() }} </p>
+                        <div class="flex pb-2 items-center gap-x-1">
+                           <div class="block h-6 w-6 rounded-full overflow-hidden">
+                              <img class="h-full w-full object-cover" src="{{ $note->user?->avatar_url }}" alt="Avatar ">
+                           </div>
+
+                           <p class="{{ $note->user->id == auth()->id() ? 'text-activeColor dark:text-activeColor-dark font-semibold' : 'text-textColor dark:text-textColor-dark' }} text-sm "> 
+                              {{$note->user->name}}
+                           </p>                        
+                           <span class=" hidden sm:inline">•</span>
+                           
+                           <div class="flex text-sm text-textColor dark:text-textColor-dark ">
+                              <p class="">{{ $note->published_at->diffForHumans() }} </p>
                            </div>
 
                         </div>
-                        <div class="mb-1 pt-1">
-                           <h2 class="text-lg font-medium" >
-                              <a href="{{ route('notes.show', $note->id)}}">
-                                 {{ Str::limit($note->title, $limit = 35, $end = '...') }}
+                        <div class="">
+                           <h2 class="text-lg font-medium " >
+                              <a class="w-full line-clamp-1 sm:line-clamp-3" href="{{ route('notes.show', $note->id)}}">
+                                 {{ $note->title }}
                               </a>
 
                            </h2>
-                           <p class="text-textSecColor dark:text-textSecColor-dark opacity-85">
-                              {{ Str::limit($note->content, $limit = 40, $end = '...') }}
+                           <p class="text-textSecColor dark:text-textSecColor-dark opacity-85 line-clamp-1 sm:line-clamp-3 ">
+                              {{ $note->content }}
                            </p>
                         </div>
 
                         <div class="flex gap-x-2 py-2">
 
-                           <like-button 
-                              type="note" 
-                              :id="{{ $note->id }}" 
-                              :initial-likes-count="{{ $note->likes()->count() }}">
-                              :user-liked="{{  $note->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }}"
-                           </like-button>
-
-                           <div class="flex items-center">
-                              {{ $note->comments_count }} comments
+                           <div class="bg-black/20 p-1 px-2 pr-3 rounded-xl">
+                              <like-button 
+                                 type="note" 
+                                 :id="{{ $note->id }}" 
+                                 :initial-likes-count="{{ $note->likes()->count() }}">
+                                 :user-liked="{{  $note->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }}"
+                              </like-button>
+                           </div>
+                           <div class="flex items-center ">
+                              <p class="flex opacity-85">{{ $note->comments_count }} comments</p>
                            </div>
 
                         </div>

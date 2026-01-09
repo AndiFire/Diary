@@ -49,11 +49,11 @@ class DiaryController extends Controller
       //         ->paginate(12);
 
 
-      $notes = Note::with(['user'])      // загружаем автора
-         ->withCount('comments')        // считаем комменты
+      $notes = Note::with(['user'])     
+         ->withCount('comments')       
          ->get();
 
-      $userNotes = $notes->where('user_id', auth()->id()); // тут норм, это фильтр коллекции
+      $userNotes = $notes->where('user_id', auth()->id()); 
 
       return view('diary.index', compact('notes', 'userNotes'));
 

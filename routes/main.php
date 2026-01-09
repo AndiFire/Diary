@@ -19,16 +19,16 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // -------------------HOME---------------------
-Route::get('/diary', [DiaryController::class, 'index'])->name('diary');
-Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
-Route::redirect('/', '/home')->name('home.redirect');
+
+Route::get('/diary', [DiaryController::class, 'index'])->middleware(['auth', 'verified'])->name('diary');
+Route::redirect('/', '/diary')->name('home.redirect');
 
 // --------------------------------------AUTH--------------------------------------------
 Route::middleware('auth')->group(function () {
 
    Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
-   Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
+   Route::get('/user/edit/{name}', [UserController::class, 'edit'])->name('user.edit');
    Route::post('/change-password', [UserController::class, 'ChangePassword'])->name('password.change');
    Route::post('/change-name', [UserController::class, 'ChangeName'])->name('name.change');
 
@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
    Route::post('notes/{note}/comments', [CommentController::class, 'store']);
 
    Route::post('/like', [LikeController::class, 'store'])->name('like.store');
+   Route::post('/user/avatar', [UserController::class, 'ChangeAvatar']);
 });
 
 //---------------------------------------GUEST---------------------------------------------
