@@ -46,15 +46,36 @@ class User extends Authenticatable implements MustVerifyEmail
       'password' => 'hashed',
    ];
 
-public function getAvatarUrlAttribute()
-{
-   return $this->avatar
-      ? asset('storage/' . $this->avatar)  
-      : asset('images/default-avatar.jpg'); 
-}
+   public function getAvatarUrlAttribute()
+   {
+      return $this->avatar
+         ? asset('storage/' . $this->avatar)  
+         : asset('images/default-avatar.jpg'); 
+   }
 
 
    public function notes(){
       return $this->hasMany(Note::class);
    }
+
+   public function likedNotes()
+   {
+      return $this->morphedByMany(
+         Note::class,        // к какой модели лайки
+         'likeable',         // имя полиморфной связи
+         'likes',            // таблица
+         'user_id',          // foreign key пользователя
+         'likeable_id'       // ключ связанной модели
+      );
+   }
+      public function commentedNotes()
+   {
+      return $this->belongsToMany(
+         Note::class,
+         'comments',
+         'user_id',
+         'note_id'
+      )->withPivot('content')->distinct();
+   }
+
 }

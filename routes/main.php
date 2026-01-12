@@ -28,7 +28,8 @@ Route::middleware('auth')->group(function () {
 
    Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
-   Route::get('/user/edit/{name}', [UserController::class, 'edit'])->name('user.edit');
+   Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
+   Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
    Route::post('/change-password', [UserController::class, 'ChangePassword'])->name('password.change');
    Route::post('/change-name', [UserController::class, 'ChangeName'])->name('name.change');
 

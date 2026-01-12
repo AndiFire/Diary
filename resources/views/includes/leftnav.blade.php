@@ -11,25 +11,27 @@
                </div>
                <ul class="flex flex-col text-lg font-medium rounded-lg rtl:space-x-reverse w-full">
 
-                    <li class="{{ request()->is('diary') ? 'text-activeColor dark:text-activeColor-dark font-bold bg-black/20 ' 
-                    : 'text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark hover:bg-black/10 cursor-pointer' }}
-                     items-center justify-center flex h-10 w-full rounded-lg " >
+                  <li class="{{ request()->is('diary') ? 'text-activeColor dark:text-activeColor-dark font-bold bg-black/20 ' 
+                  : 'text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark hover:bg-black/10 cursor-pointer' }}
+                  items-center justify-center flex h-10 w-full rounded-lg " >
 
-                        <a {{Route::is('diary') ? 'active': ''}} href="{{ route('diary')}}"
-                            class="block py-2 px-3 md:p-0 ">
-                                Diary
-                        </a>
-                    </li>
+                     <a {{Route::is('diary') ? 'active': ''}} href="{{ route('diary')}}"
+                           class="block py-2 px-3 md:p-0 ">
+                              Diary
+                     </a>
+                  </li>
 
-                    <li class="{{ request()->is('user/edit/*') ? 'text-activeColor dark:text-activeColor-dark font-bold bg-black/20 ' 
-                    : 'text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark hover:bg-black/10 cursor-pointer' }}
-                     items-center justify-center flex h-10 w-full rounded-lg" >
+                  <li class="{{ request()->routeIs('user.edit') ? 'text-activeColor dark:text-activeColor-dark font-bold bg-black/20' 
+                                       : 'text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark hover:bg-black/10 cursor-pointer' }}
+                        flex items-center justify-center h-10 w-full rounded-lg">
 
-                        <a {{Route::is('user/edit/*') ? 'active ': ''}} href="{{ route('user.edit', auth()->user()->name) }}"
-                            class="block py-2 px-3 md:p-0">
-                                Profile
-                        </a>
-                    </li>
+
+                     <a href="{{ route('user.edit', ['id' => auth()->id()]) }}" class="block py-2 px-3 md:p-0">
+                        Profile
+                  </a>
+
+                  </li>
+
 
                 </ul>
             </div>

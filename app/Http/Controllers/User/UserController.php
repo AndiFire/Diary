@@ -35,23 +35,37 @@ class UserController extends Controller
       //
    }
 
-   public function show(Note $note)
+   public function show(Request $request, Note $note, $id)
    {
+      $user = User::where('id', $id)->firstOrFail();
 
-   }
-
-   public function edit(User $noteUser, Note $note)
-   {
-      $user = auth()->user();  // авторизованный пользователь
-
-      $notes = Note::all();
-      foreach ($notes as $note) {
-         $noteUser = User::find($note->user_id);
-         $note->user_name = $noteUser ? $noteUser->name : 'Неизвестно';
+      if (auth()->check() && auth()->id() === (int) $id) {
+         $notes = Note::where('user_id', $id)->get();
+      } else {
+         $notes = Note::where('user_id', $id)->where('published', true)->get();
       }
 
-      return view('user.edit', compact('user', 'notes', 'note'));
+      $publishedNotes = Note::where('published', true)->get();
+      $commentedNotes = $user->commentedNotes()->with('user')->get();
+      $likedNotes = $user->likedNotes()->with('user')->get();
+
+      return view('user.show', compact('user', 'publishedNotes', 'commentedNotes', 'likedNotes', 'notes'));
    }
+
+   public function edit($id)
+   {
+      // Только свой профиль можно редактировать
+      if (auth()->id() !== (int) $id) {
+         abort(403);
+      }
+
+      $user = auth()->user();
+
+      $notes = Note::where('user_id', $id)->get();
+
+      return view('user.edit', compact('user', 'notes'));
+   }
+
    public function update(Request $request, string $id)
    {
    }
@@ -76,25 +90,23 @@ class UserController extends Controller
       return redirect()->route('profile.edit');
    }
 
-//    --------------Change Password-----------------
+   //    --------------Change Password-----------------
    public function ChangePassword(Request $request): RedirectResponse
    {
       $this->validate($request, [
          'current_password' => ['required'],
-         'new_password' => ['required', 'confirmed', 'min:8', 'max:55',  Rules\Password::defaults()],
+         'new_password' => ['required', 'confirmed', 'min:8', 'max:55', Rules\Password::defaults()],
 
       ]);
       $user = Auth::user();
 
-//         The passwords matches
-      if (!Hash::check($request->current_password, auth()->user()->password))
-      {
+      //         The passwords matches
+      if (!Hash::check($request->current_password, auth()->user()->password)) {
          throw ValidationException::withMessages(['old_password' => 'The old password is incorrect.']);
       }
 
       // Current password and new password same
-      if (strcmp($request->get('current_password'), $request->new_password) == 0)
-      {
+      if (strcmp($request->get('current_password'), $request->new_password) == 0) {
          throw ValidationException::withMessages(['error_cannot_be_same' => "New Password cannot be same as your current password."]);
       }
 

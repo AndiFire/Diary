@@ -38,7 +38,7 @@
                 </div>
 
                 @auth
-                    <user-menu :user="{{ json_encode(['name' => Auth::user()->name, 'email' => Auth::user()->email, 'avatar_url' => Auth::user()->avatar_url]) }}"></user-menu>
+                    <user-menu :user="{{ json_encode(['id' => Auth::user()->id, 'name' => Auth::user()->name, 'email' => Auth::user()->email, 'avatar_url' => Auth::user()->avatar_url]) }}"></user-menu>
                 @endauth
 
             </ul>

@@ -80,13 +80,19 @@
 
                         {{-- Texts --}}
                         <div class="flex pb-2 items-center gap-x-1">
-                           <div class="block h-6 w-6 rounded-full overflow-hidden">
-                              <img class="h-full w-full object-cover" src="{{ $note->user?->avatar_url }}" alt="Avatar ">
-                           </div>
+                           <a href="{{ auth()->id() === $note->user->id 
+                           ? route('user.edit', ['id' => auth()->user()->id]) 
+                           : route('user.show', ['id' => $note->user->id]) }}" 
+                              class="flex gap-x-2 items-center justify-center">
 
-                           <p class="{{ $note->user->id == auth()->id() ? 'text-activeColor dark:text-activeColor-dark font-semibold' : 'text-textColor dark:text-textColor-dark' }} text-sm "> 
-                              {{$note->user->name}}
-                           </p>                        
+                              <div class="block h-6 w-6 rounded-full overflow-hidden">
+                                 <img class="h-full w-full object-cover" src="{{ $note->user?->avatar_url }}" alt="Avatar ">
+                              </div>
+
+                              <p class="{{ $note->user->id == auth()->id() ? 'text-activeColor dark:text-activeColor-dark font-semibold' : 'text-textColor dark:text-textColor-dark' }} text-sm "> 
+                                 {{$note->user->name}}
+                              </p>    
+                           </a>                 
                            <span class=" hidden sm:inline">•</span>
                            
                            <div class="flex text-sm text-textColor dark:text-textColor-dark ">

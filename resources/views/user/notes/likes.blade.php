@@ -4,6 +4,8 @@
    @else
       <div class="flex flex-col">
          @foreach ($notes as $note)
+
+            @if ($note->likes()->where('user_id', Auth::id())->exists())
                <div class="border-b border-l pl-2 rounded-bl-xl border-borderColor dark:border-borderColor-dark mx-4 mt-6">
                   <div class="mb-1 ">
 
@@ -32,7 +34,8 @@
                      </div>
 
                   </div>
-               </div>
+               </div>  
+            @endif
             
          @endforeach
       </div>

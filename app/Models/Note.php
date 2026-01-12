@@ -53,6 +53,12 @@ class Note extends Model
       return $this->morphMany(Like::class, 'likeable');
    }
 
+      public function likedBy()
+   {
+      return $this->morphToMany(User::class, 'likeable', 'likes', 'likeable_id', 'user_id');
+   }
+
+
     protected static function boot()
     {
         parent::boot();

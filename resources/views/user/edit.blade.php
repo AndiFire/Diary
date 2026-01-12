@@ -8,8 +8,8 @@
 
    <div class="flex w-full g-bgSecColor dark:bg-bgSecColor-dark rounded-2xl">
 
-      <div class="p-12 bg-skinColor rounded-2xl flex justify-center items-center w-full h-full text-textColor dark:text-textColor-dark">
-         <div class="flex-col flex p-10 w-1/2 bg-bgColor dark:bg-bgColor-dark rounded-2xl mr-8 ">
+      <div class="p-12 bg-skinColor rounded-2xl flex justify-center items-center md:h-[750px] w-full h-full text-textColor dark:text-textColor-dark">
+         <div class="flex-col flex p-10 w-1/2 bg-bgColor dark:bg-bgColor-dark rounded-2xl mr-8  ">
             {{--------------AVATAR----------------}}
             <change-avatar :user='@json(["avatar_url" => $user->avatar_url ?? asset("images/default-avatar.jpg")])' ></change-avatar>
 
@@ -104,7 +104,7 @@
             </div>
             <div class="rounded-2xl h-1/2 w-full bg-bgColor dark:bg-bgColor-dark">
                <div class="flex row justify-center items-center border-b border-slate-600 w-full pb-4 py-6 px-7">
-                  <h2 class="font-bold text-lg w-1/2 text-textColor dark:text-textColor-dark">{{__('My diary entries')}}</h2>
+                  <h2 class="font-bold text-lg w-1/2 text-textColor dark:text-textColor-dark">{{__('My diary likes')}}</h2>
                   <div class="w-1/2 flex justify-end items-center">
                         <div class="relative ml-12">
                            <input type="text" placeholder="Search..."
@@ -115,6 +115,7 @@
                         </div>
                   </div>
                </div>
+               @include('user.notes.likes')
             </div>
          </div>
       </div>
