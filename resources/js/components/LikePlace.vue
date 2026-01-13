@@ -1,6 +1,8 @@
 <template>
    <button @click="like" :class="{ liked: isLiked }">
-      ❤️ {{ likesCount }}
+      <span v-if="isLiked">❤️</span>
+      <span v-else>🤍</span>
+      {{ likesCount }}
    </button>
 </template>
 

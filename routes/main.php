@@ -28,8 +28,13 @@ Route::middleware('auth')->group(function () {
 
    Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
+   Route::get('/diary/search', [DiaryController::class, 'searchAjax'])->name('diary.search');
+   Route::get('/notes/search', [NoteController::class, 'search'])->name('notes.search');
+   Route::get('/likes/search', [LikeController::class, 'search'])->name('likes.search');
+
    Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+
    Route::post('/change-password', [UserController::class, 'ChangePassword'])->name('password.change');
    Route::post('/change-name', [UserController::class, 'ChangeName'])->name('name.change');
 
@@ -39,8 +44,6 @@ Route::middleware('auth')->group(function () {
 
    Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
    Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store']);
-
-   Route::get('notes/{note}', [NoteController::class, 'show'])->name('notes.show')->whereNumber('note');
 
    Route::get('notes/{note}/comments', [CommentController::class, 'index']);
    Route::post('notes/{note}/comments', [CommentController::class, 'store']);

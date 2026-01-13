@@ -12,6 +12,8 @@ import TimeAgo from './components/TimeAgo.vue'
 import IconLoader from './components/IconLoader.vue'
 import LikePlace from './components/LikePlace.vue'
 import ChangeAvatar from './components/ChangeAvatar.vue';
+import NoteSearch from './components/NoteSearch.vue';
+import LikedNotes from './components/NoteLiked.vue';
 
 app.component('user-menu', UserMenu);
 app.component('burger-menu', BurgerMenu);
@@ -21,5 +23,7 @@ app.component('time-ago', TimeAgo);
 app.component('icon', IconLoader);
 app.component('like-button', LikePlace);
 app.component('change-avatar', ChangeAvatar);
+app.component('note-search', NoteSearch);
+app.component('liked-notes', LikedNotes);
 
 app.mount('#app');

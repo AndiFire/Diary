@@ -1,7 +1,9 @@
 @extends('layouts.main')
 @section('main.content')
 
-<div class=" justify-center items-center w-full h-full ">
+<p>changed to user.notes.show</p>
+
+{{-- <div class=" justify-center items-center w-full h-full ">
    <div class="relative w-full h-full ">
 
       <div class="justify-center bg-bgSecColor dark:bg-bgSecColor-dark rounded-lg shadow flex px-16 py-6">
@@ -70,5 +72,5 @@
          </div>
       </div>
    </div>
-</div>
+</div> --}}
 @endsection

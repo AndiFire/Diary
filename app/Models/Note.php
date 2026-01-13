@@ -14,27 +14,36 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Note extends Model
 {
-    use HasFactory;
+   use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'title', 'content',
-        'published', 'published_at',
-    ];
+   protected $fillable = [
+      'user_id',
+      'title', 'content',
+      'published', 'published_at',
+   ];
 
-    protected $casts = [
-        'user_id' => 'integer',
-        'published_at' => 'datetime',
-        'published' => 'boolean',
-    ];
+   protected $casts = [
+      'user_id' => 'integer',
+      'published_at' => 'datetime',
+      'published' => 'boolean',
+   ];
 
-    public static array $rules = [
-        'title' => ['required', 'string', 'max:100'],
-        'content' => ['required', 'string', 'max:10000'],
-        'published_at' => ['nullable', 'string', 'date'],
-        'published' => ['nullable', 'boolean'],
-    ];
+   public static array $rules = [
+      'title' => ['required', 'string', 'max:100'],
+      'content' => ['required', 'string', 'max:10000'],
+      'published_at' => ['nullable', 'string', 'date'],
+      'published' => ['nullable', 'boolean'],
+   ];
 
+   protected $appends = [ 'published_human', 'updated_human'];
+
+   public function getPublishedHumanAttribute(){
+      return $this->published_at?->diffForHumans();
+   }
+
+   public function getUpdatedHumanAttribute(){
+      return $this->updated_at?->diffForHumans();
+   }
    public function isPublished(): bool
    {
       return $this->published && $this->published_at;
@@ -59,14 +68,14 @@ class Note extends Model
    }
 
 
-    protected static function boot()
-    {
-        parent::boot();
+   protected static function boot()
+   {
+      parent::boot();
 
-        static::saving(function ($model) {
-            if ($model->isDirty()) {
-                $model->updated_at = $model->freshTimestamp();
-            }
-        });
-    }
+      static::saving(function ($model) {
+         if ($model->isDirty()) {
+               $model->updated_at = $model->freshTimestamp();
+         }
+      });
+   }
 }

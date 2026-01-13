@@ -54,7 +54,7 @@ class UserController extends Controller
 
    public function edit($id)
    {
-      // Только свой профиль можно редактировать
+
       if (auth()->id() !== (int) $id) {
          abort(403);
       }

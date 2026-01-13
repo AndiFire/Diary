@@ -21,7 +21,9 @@
     <link rel="preconnect" href="{{ asset('https://fonts.gstatic.com')}}" crossorigin>
     <link href="{{ asset('https://fonts.googleapis.com/css2?family=Philosopher&family=Raleway:wght@400;500;600&family=Roboto:wght@300;700;900&display=swap')}}" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/routers/index.js' ])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/routers/index.js', 'resources/js/partials/search.js'])
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 
 </head>
 

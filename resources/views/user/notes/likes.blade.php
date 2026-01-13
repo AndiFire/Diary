@@ -18,7 +18,7 @@
 
                      {{-- Content --}}
                      <p class="text-textSecColor dark:text-textSecColor-dark border-b border-borderColor/50 dark:border-borderColor-dark/50">
-                        {{ Str::limit($note->content, $limit = 40, $end = '...') }}
+                        {{ $note->content }}
                      </p>
 
                      <div class="flex justify-between items-center pt-1 ">

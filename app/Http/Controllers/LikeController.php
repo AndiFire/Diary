@@ -51,7 +51,7 @@ class LikeController extends Controller
     */
    public function show(string $id)
    {
-      //
+      
    }
 
    /**
@@ -76,5 +76,16 @@ class LikeController extends Controller
    public function destroy(string $id)
    {
       //
+   }
+
+   public function search(Request $request)
+   {
+      $query = $request->get('query');
+      $userId = $request->get('user_id');
+
+      return Note::where('user_id', $userId)
+         ->where('title', 'like', "%{$query}%")
+         ->orWhere('content', 'like', "%{$query}%")
+         ->get();
    }
 }

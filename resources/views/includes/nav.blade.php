@@ -46,13 +46,13 @@
 
         @auth
 
-         <div class="relative order-1 md:ml-10 ">
-            <input type="text" placeholder="Search..."
+         <form method="GET" class="relative order-1 md:ml-10 ">
+            <input type="text" name="q" placeholder="Search..." id="searchInput" value="{{ $query ?? '' }}" autocomplete="off"
                class=" bg-zinc-500/20 rounded-xl py-1 pr-40 block ">
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+            <button type="submit" class="absolute inset-y-0 right-0 pr-3 flex items-center">
                <img class="w-5 h-5" src="{{ asset('/icons/search-normal.svg') }}" alt="search">
-            </div>
-         </div>   
+            </button>
+         </form>   
         @endauth
 
     </div>

@@ -12,42 +12,6 @@ class DiaryController extends Controller
 {
    public function index(Request $request)
    {
-      // $categories = [
-      //     null => __('Все категории'), 
-      //     1 => __('Первая категория'), 
-      //     2 => __('Вторая категория'),
-      // ];
-   
-      //     $validated = $request->validate([
-      //         'search' => ['nullable', 'string', 'max:55'],
-      //         'from_date' => ['nullable', 'string', 'date'],
-      //         'to_date' => ['nullable', 'string', 'after:from_date'],
-      //         'tag' => ['nullable', 'string', 'max:15'],
-      //     ]);
-   
-      //     $query = Note::query()
-      //         ->where('published', true)
-      //         ->whereNotNull('published_at');
-   
-      //     if ($search = $validated['search'] ?? null) {
-      //         $query->where('title', 'like', "%{$search}%");
-      //     }
-   
-      //     if ($fromDate = $validated['from_date'] ?? null) {
-      //         $query->where('published_at', '>=', new Carbon($fromDate));
-      //     }
-   
-      //     if ($toDate = $validated['to_date'] ?? null) {
-      //         $query->where('published_at', '<=', new Carbon($toDate));
-      //     }
-   
-      //     if ($tag = $validated['tag'] ?? null) {
-      //         $query->whereJsonContains('tags', $tag);
-      //     }
-   
-      //         $notes = $query->latest('published_at')
-      //         ->paginate(12);
-
 
       $notes = Note::with(['user'])     
          ->withCount('comments')       
@@ -55,7 +19,22 @@ class DiaryController extends Controller
 
       $userNotes = $notes->where('user_id', auth()->id()); 
 
-      return view('diary.index', compact('notes', 'userNotes'));
+      return view('diary.index', ['notes' => $notes, 'searchMode' => false]);
 
+   }
+   public function searchAjax(Request $request)
+   {
+      $query = $request->q;
+
+      $notes = Note::with('user')
+         ->withCount('comments')
+         ->when($query, function ($q) use ($query) {
+               $q->where('title', 'like', "%{$query}%")
+               ->orWhere('content', 'like', "%{$query}%");
+         })
+         ->latest()
+         ->get();
+
+         return response()->json(['html' => view('partials.notes', ['notes' => $notes, 'searchMode' => true])->render()]);
    }
 }
