@@ -14,10 +14,12 @@ class DiaryController extends Controller
    {
 
       $notes = Note::with(['user'])     
-         ->withCount('comments')       
+         ->withCount(['likes', 'comments']) 
+         ->withExists([
+            'likes as user_liked' => fn ($q) =>
+               $q->where('user_id', auth()->id())
+         ])      
          ->get();
-
-      $userNotes = $notes->where('user_id', auth()->id()); 
 
       return view('diary.index', ['notes' => $notes, 'searchMode' => false]);
 

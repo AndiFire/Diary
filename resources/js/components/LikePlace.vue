@@ -12,13 +12,21 @@ export default {
       type: String,
       id: Number,
       initialLikesCount: Number,
-      userLiked: Boolean // передаём, если пользователь уже лайкнул
+      userLiked: Boolean
    },
    data() {
       return {
          likesCount: this.initialLikesCount,
          isLiked: this.userLiked
       };
+   },
+   watch:{
+      userLiked(val){
+         this.isLiked = val;
+      },
+      initialLikesCount(val){
+         this.likesCount = val;
+      }
    },
    methods: {
       async like() {
@@ -46,7 +54,7 @@ export default {
 
          const data = await res.json();
          this.likesCount = data.likes_count;
-         this.isLiked = !this.isLiked;
+         this.isLiked = data.user_liked;
       }
    }
 }

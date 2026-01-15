@@ -67,7 +67,6 @@ class Note extends Model
       return $this->morphToMany(User::class, 'likeable', 'likes', 'likeable_id', 'user_id');
    }
 
-
    protected static function boot()
    {
       parent::boot();
@@ -78,4 +77,5 @@ class Note extends Model
          }
       });
    }
+
 }

@@ -30,7 +30,6 @@ Route::middleware('auth')->group(function () {
 
    Route::get('/diary/search', [DiaryController::class, 'searchAjax'])->name('diary.search');
    Route::get('/notes/search', [NoteController::class, 'search'])->name('notes.search');
-   Route::get('/likes/search', [LikeController::class, 'search'])->name('likes.search');
 
    Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');

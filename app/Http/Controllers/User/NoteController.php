@@ -59,9 +59,12 @@ class NoteController extends Controller
 
    public function show(Note $note, Comment $comment)
    {
-      // $comments = $note->comments()->with('user');
-
-
+      $note->loadCount('likes')
+         ->loadExists([
+            'likes as user_liked' => function ($query){
+               $query->where('user_id', auth()->id());
+            }
+         ]);
 
       return view('user.notes.show', compact(['note']));
    }
@@ -103,23 +106,36 @@ class NoteController extends Controller
 
    public function search(Request $request)
    {
-      $query = $request->get('q') ?? $request->get('search', '');
+      $queryText = $request->get('q') ?? $request->get('search', '');
       $userId = $request->get('user_id') ?? auth()->id();
+      $type = $request->get('type', 'all'); 
 
-      $notesQuery = Note::where('user_id', $userId)
-         ->when($userId !== Auth::id(), function ($query){
-            $query->where('published', true);
+      $notesQuery = Note::query();
+
+      if ($type === 'liked') {
+         $notesQuery->whereHas('likes', function($q) use ($userId) {
+               $q->where('user_id', $userId);
          });
+      } else {
+         $notesQuery->where('user_id', $userId);
 
-      if (!empty($query)) {
-         $notesQuery->where(function ($q) use ($query) {
-            $q->where('title', 'like', "%{$query}%")
-               ->orWhere('content', 'like', "%{$query}%");
+         if ($userId != auth()->id()) {
+               $notesQuery->where('published', true);
+         }
+      }
+
+      if (!empty($queryText)) {
+         $notesQuery->where(function($q) use ($queryText) {
+               $q->where('title', 'like', "%{$queryText}%")
+               ->orWhere('content', 'like', "%{$queryText}%");
          });
       }
 
-      $notes = $notesQuery->get();
+      $notes = $notesQuery->withCount('likes')
+         ->orderBy('published_at', 'desc')
+         ->get();
 
       return response()->json(['notes' => $notes]);
    }
+
 }

@@ -42,7 +42,8 @@ class LikeController extends Controller
       }
 
       return response()->json([
-         'likes_count' => $model->likes()->count()
+         'likes_count' => $model->likes()->count(),
+         'user_liked'  => !$existing,
       ]);
    }
 
@@ -78,14 +79,4 @@ class LikeController extends Controller
       //
    }
 
-   public function search(Request $request)
-   {
-      $query = $request->get('query');
-      $userId = $request->get('user_id');
-
-      return Note::where('user_id', $userId)
-         ->where('title', 'like', "%{$query}%")
-         ->orWhere('content', 'like', "%{$query}%")
-         ->get();
-   }
 }

@@ -45,8 +45,8 @@
                   <like-button
                      type="note"
                      :id="{{ $note->id }}"
-                     :initial-likes-count="{{ $note->likes()->count() }}"
-                     :user-liked="{{ $note->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }}"
+                     :initial-likes-count="{{ $note->likes_count }}"
+                     :user-liked="{{ $note->user_liked ? 'true' : 'false' }}"
                   ></like-button>
                </div>
             @else

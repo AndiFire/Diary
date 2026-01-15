@@ -51,11 +51,11 @@
 
             <div class="flex py-2 gap-x-2 mb-2">
                <div class="bg-black/20 p-1 px-2 pr-3 rounded-xl">
-                  <like-button 
-                     type="note" 
-                     :id="{{ $note->id }}" 
-                     :initial-likes-count="{{ $note->likes()->count() }}">
-                     :user-liked="{{  $note->likes()->where('user_id', auth()->id())->exists() ? 'true' : 'false' }}"
+                  <like-button
+                     type="note"
+                     :id="{{ $note->id }}"
+                     :initial-likes-count="{{ $note->likes_count }}"
+                     :user-liked="{{ $note->user_liked ? 'true' : 'false' }}">
                   </like-button>
                </div>
                <div class="flex items-center ">
