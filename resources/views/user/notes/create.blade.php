@@ -29,7 +29,7 @@
                   </div>
 
                   <label for="published_at" id="published_at"
-                     class="block mb-1 text-md font-medium text-textColor dark:text-textColor-dark ">Date of publishing</label>
+                     class="block mb-1 text-md font-medium text-textColor dark:text-textColor-dark ">Date of noting</label>
                   <div class="flex">
 
                      <!-- Published at -->

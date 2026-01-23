@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
    Route::get('/diary/search', [DiaryController::class, 'searchAjax'])->name('diary.search');
    Route::get('/notes/search', [NoteController::class, 'search'])->name('notes.search');
 
+
    Route::get('/user/show/{id}', [UserController::class, 'show'])->name('user.show');
    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
 
@@ -46,6 +47,8 @@ Route::middleware('auth')->group(function () {
 
    Route::get('notes/{note}/comments', [CommentController::class, 'index']);
    Route::post('notes/{note}/comments', [CommentController::class, 'store']);
+   Route::put('notes/{note}/comments/{comment}', [CommentController::class, 'update']);
+   Route::delete('notes/{note}/comments/{comment}', [CommentController::class, 'destroy']);
 
    Route::post('/like', [LikeController::class, 'store'])->name('like.store');
    Route::post('/user/avatar', [UserController::class, 'ChangeAvatar']);

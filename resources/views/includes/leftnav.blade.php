@@ -21,12 +21,12 @@
                      </a>
                   </li>
 
-                  <li class="{{ request()->routeIs('user.edit') ? 'text-activeColor dark:text-activeColor-dark font-bold bg-black/20' 
+                  <li class="{{ request()->routeIs('user.show') ? 'text-activeColor dark:text-activeColor-dark font-bold bg-black/20' 
                                        : 'text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark hover:bg-black/10 cursor-pointer' }}
                         flex items-center justify-center h-10 w-full rounded-lg">
 
 
-                     <a href="{{ route('user.edit', ['id' => auth()->id()]) }}" class="block py-2 px-3 md:p-0">
+                     <a href="{{ route('user.show', ['id' => auth()->id()]) }}" class="block py-2 px-3 md:p-0">
                         Profile
                   </a>
 

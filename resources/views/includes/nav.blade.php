@@ -3,7 +3,7 @@
 
         <div class="flex">
             @auth
-                <div class="flex relative md:order-6 pr-4">
+                <div class="flex relative order-0 pr-4 md:hidden">
                     <burger-menu></burger-menu>
                 </div>
             @endauth
@@ -16,7 +16,7 @@
 
         </div>
 
-        <div class="flex md:order-9 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div class="flex order-9 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <ul class="flex row font-bold">
                 <div class="flex flex-col sm:flex-row ">
                     @guest
@@ -48,8 +48,8 @@
 
          <form method="GET" class="relative order-1 md:ml-10 ">
             <input type="text" name="q" placeholder="Search..." id="searchInput" value="{{ $query ?? '' }}" autocomplete="off"
-               class=" bg-zinc-500/20 rounded-xl py-1 pr-40 block ">
-            <button type="submit" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+               class=" bg-zinc-500/20 rounded-xl py-1 pr-40 block pl-10">
+            <button type="submit" class="absolute inset-y-0 left-0 pl-3 flex items-center">
                <img class="w-5 h-5" src="{{ asset('/icons/search-normal.svg') }}" alt="search">
             </button>
          </form>   

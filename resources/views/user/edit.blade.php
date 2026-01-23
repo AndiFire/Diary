@@ -8,8 +8,8 @@
 
    <div class="flex w-full g-bgSecColor dark:bg-bgSecColor-dark rounded-2xl">
 
-      <div class="p-12 bg-skinColor rounded-2xl flex justify-center items-center  w-full h-full text-textColor dark:text-textColor-dark mx-auto">
-         <div class="flex-col flex p-10 w-1/2 bg-bgColor dark:bg-bgColor-dark rounded-2xl mr-8  ">
+      <div class="p-12 bg-skinColor rounded-2xl flex justify-center items-center w-full h-full text-textColor dark:text-textColor-dark mx-auto">
+         <div class="flex-col flex p-10 w-1/2 bg-bgColor dark:bg-bgColor-dark rounded-2xl mr-8 h-full">
             {{--------------AVATAR----------------}}
             <change-avatar :user='@json(["avatar_url" => $user->avatar_url ?? asset("images/default-avatar.jpg")])' ></change-avatar>
 
@@ -93,6 +93,7 @@
                <note-search :user='@json(["id" => $user->id])' title="My liked notes" type="liked"></note-search>
             </div>
          </div>
+
       </div>
    </div>
 

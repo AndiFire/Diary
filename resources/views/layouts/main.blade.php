@@ -9,7 +9,7 @@
          @include('includes.nav')
       </div>
 
-      <main class="flex mb-10 ">
+      <main class="flex md:mb-10 ">
          @include('includes.leftnav')
          @yield('main.content')
       </main>

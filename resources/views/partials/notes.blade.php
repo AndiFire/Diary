@@ -1,13 +1,11 @@
 @foreach ($notes as $note)
    @if ($note->published == true)
 
-      <div class="border-b border-borderColor dark:border-borderColor-dark  py-3 px-1 mb-2   ">
+      <div class="border-b border-borderColor/50 dark:border-borderColor-dark/50  py-3 px-1 mb-2   ">
 
          {{-- Texts --}}
          <div class="flex pb-2 items-center gap-x-1">
-            <a href="{{ auth()->id() === $note->user->id 
-            ? route('user.edit', ['id' => auth()->user()->id]) 
-            : route('user.show', ['id' => $note->user->id]) }}" 
+            <a href="{{ route('user.show', $note->user->id) }}" 
                class="flex gap-x-2 items-center justify-center">
 
                <div class="block h-6 w-6 rounded-full overflow-hidden">

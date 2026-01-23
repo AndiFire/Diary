@@ -13,6 +13,7 @@ import IconLoader from './components/IconLoader.vue'
 import LikePlace from './components/LikePlace.vue'
 import ChangeAvatar from './components/ChangeAvatar.vue';
 import NoteSearch from './components/NoteSearch.vue';
+import ProfileTabs from './components/ProfileTabs.vue';
 
 app.component('user-menu', UserMenu);
 app.component('burger-menu', BurgerMenu);
@@ -23,5 +24,6 @@ app.component('icon', IconLoader);
 app.component('like-button', LikePlace);
 app.component('change-avatar', ChangeAvatar);
 app.component('note-search', NoteSearch);
+app.component('profile-tabs', ProfileTabs);
 
 app.mount('#app');

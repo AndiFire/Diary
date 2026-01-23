@@ -1,6 +1,6 @@
 <template>
 	<div class="flex justify-center">
-		<div class="relative h-64 w-64 mb-6 overflow-hidden rounded-full cursor-pointer">
+		<div class="relative h-20 w-20 md:h-40 md:w-40 overflow-hidden rounded-full cursor-pointer">
 				<img class="h-full w-full object-cover"
 						:src="user.avatar_url"
 						alt="User avatar">
