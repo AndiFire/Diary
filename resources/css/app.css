@@ -9,3 +9,18 @@
 .hide-scroll::-webkit-scrollbar {
    display: none;
 }
+.like {
+  position: relative;
+}
+
+.like::before {
+  content: "";
+  position: absolute;
+  inset: -4px -6px;
+  background: transparent;
+  border-radius: 20px;
+}
+
+.like:hover::before {
+  background: rgba(0,0,0,.2);
+}

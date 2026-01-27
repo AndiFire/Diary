@@ -75,7 +75,7 @@
 
                <!-- COMMENTS -->
                <div class="flex">
-                  <note-comments :note-id="{{ $note->id }} " :auth-user-id="{{ auth()->id() }}" />
+                  <note-comments :autor-id="{{ $note->user_id }}" :note-id="{{ $note->id }} " :auth-user-id="{{ auth()->id() }}" />
                </div>
             </div>
          </div>

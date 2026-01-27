@@ -11,67 +11,10 @@
       </form>
 
       <ul>
-         <li class="py-4" v-for="comment in comments" :key="comment.id">
-            <div class="flex items-center">
-               <h1 class="font-bold text-sm text-textColor dark:text-textColor-dark">{{ comment.user.name }}</h1>
-               <span class=" mx-1 text-textSecColor dark:text-textSecColor-dark">•</span>
-
-               <div class="flex" :ref="`menu-${comment.id}`">
-                  <div v-if="comment.created_at != comment.updated_at">
-                     <p class="text-xs mr-1">Updated {{ comment.updated_comment }}</p>
-                  </div>
-                  <div v-else class="">
-                     <p class="text-xs mr-1 ">{{ comment.created_comment }}</p>
-                  </div>
-
-                  <button v-if="comment.user.id === authUserId" @click.stop="toggleMenu(comment.id)">
-                     <icon name="more" class="w-4 h-4" />
-                  </button>
-                  <div
-                     v-if="openMenuId === comment.id"
-                     class="relative -mt-16 z-50 w-24 h-16 items-start pl-2 justify-center flex flex-col rounded-lg bg-black/10 shadow-2xl">
-
-                        <button @click="startEdit(comment)" class="flex items-center space-x-1 hover:text-yellow-600">
-                           <p>Edit</p><icon name="edit" class="w-4 h-4"/>
-                        </button>
-                        <button @click="deleteComment(comment.id)" class="flex items-center space-x-1 hover:text-red-700">
-                           <p>Delete</p><icon name="trash" class="w-4 h-4"/>
-                        </button>
-
-                  </div>
-               </div>
-            </div>
-
-            <p v-if="editingCommentId !== comment.id">
-               {{ comment.content }}
-            </p>
-
-            <div v-else class="relative flex items-center w-full">
-               <input
-                  v-model="editContent"
-                  ref="editInput"
-                  class="w-full bg-transparent border border-borderColor dark:border-borderColor-dark rounded-lg px-2 py-1 pr-12"
-                  @keydown.enter="updateComment(comment.id)"
-                  @keydown.esc="cancelEdit"
-               />
-               <button
-                  type="button"
-                  @click.stop="updateComment(comment.id)"
-                  class="absolute right-2 flex items-center justify-center"
-                  aria-label="Send comment"
-               >
-                  <icon name="send" />
-               </button>
-            </div>
-
-            <div class="">
-               <like-place type="comment" :id="comment.id" :initial-likes-count="comment.likes_count"
-                  :user-liked="comment.user_liked" />
-            </div>
-
-         </li>
+         <comment-item v-for="comment in comments" :key="comment.id" :comment="comment" :auth-user-id="authUserId"
+            :note-author-id="noteAuthorId" :note-id="noteId" @reply="handleReply" @edit="handleEdit"
+            @delete="handleDelete" />
       </ul>
-
    </div>
 </template>
 
@@ -79,6 +22,7 @@
 import TimeAgo from './TimeAgo.vue'
 import Icon from './IconLoader.vue'
 import LikePlace from './LikePlace.vue'
+import CommentItem from './CommentItem.vue'
 export default {
 
    props: {
@@ -92,6 +36,7 @@ export default {
       TimeAgo,
       Icon,
       LikePlace,
+      CommentItem,
    },
 
    data() {
@@ -101,6 +46,7 @@ export default {
          openMenuId: null,
          editingCommentId: null,
          editContent: '',
+         noteAuthorId: null,
       };
    },
    mounted() {
@@ -115,12 +61,14 @@ export default {
       document.removeEventListener('keydown', this.handleEscape);
    },
 
-//METHODS------------------------------------------------------------------------
+   //METHODS------------------------------------------------------------------------
 
    methods: {
       async fetchComments() {
          const res = await fetch(`/notes/${this.noteId}/comments`);
-         this.comments = await res.json();
+         const data = await res.json();
+         this.comments = data.comments;
+         this.noteAuthorId = data.note_author_id;
       },
       async addComment() {
          if (!this.newComment.trim()) return;
@@ -137,81 +85,31 @@ export default {
          const comment = await res.json();
          comment.likes_count = 0;
          comment.user_liked = false;
+         comment.children = [];
          this.comments.push(comment);
          this.newComment = '';
       },
 
-   //EDIT------------------------------------------------------------------------------
-
-      startEdit(comment) {
-      this.editingCommentId = comment.id
-      this.editContent = comment.content
-      this.openMenuId = null
-      this.$nextTick(() => {
-         this.$refs[`editInput-${comment.id}`]?.focus()
-      })
+      handleReply(reply) {
+         // Обработка добавления ответа, если нужно
       },
-
-      cancelEdit() {
-      this.editingCommentId = null
-      this.editContent = ''
+      handleEdit(updatedComment) {
+         // Обработка редактирования, если нужно
       },
-
-      async updateComment(commentId) {
-      if (!this.editContent.trim()) {
-         this.cancelEdit()
-         return
-      }
-
-      const res = await fetch(`/notes/${this.noteId}/comments/${commentId}`, {
-         method: 'PUT',
-         credentials: 'same-origin',
-         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-         },
-         body: JSON.stringify({ content: this.editContent })
-      })
-
-      if (!res.ok) return
-
-      const updated = await res.json()
-
-      const index = this.comments.findIndex(c => c.id === commentId)
-      this.comments[index].content = updated.content
-      this.comments[index].updated_at = updated.updated_at
-      this.comments[index].updated_comment = updated.updated_comment
-
-      this.cancelEdit()
-      },
-
-   //DELETE---------------------------------------------------------------------
-
-      async deleteComment(commentId) {
-         if (!confirm('Are you sure you want to delete this comment?')) return;
-
-         const res = await fetch(`/notes/${this.noteId}/comments/${commentId}`, {
-            method: 'DELETE',
-            headers: {
-               'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            }
-         });
-
-         if (res.ok) {
-            this.comments = this.comments.filter(comment => comment.id !== commentId);
-         }
+      handleDelete(commentId) {
+         this.comments = this.comments.filter(comment => comment.id !== commentId);
       },
 
       // POPUP FROM USERMENU-----------
 
       toggleMenu(id) {
-      this.openMenuId = this.openMenuId === id ? null : id
+         this.openMenuId = this.openMenuId === id ? null : id
       },
 
       handleClickOutside(e) {
-      if (!this.openMenuId) return
+         if (!this.openMenuId) return
 
-      const ref = this.$refs[`menu-${this.openMenuId}`]
+         const ref = this.$refs[`menu-${this.openMenuId}`]
          if (ref && !ref.contains(e.target)) {
             this.openMenuId = null
          }

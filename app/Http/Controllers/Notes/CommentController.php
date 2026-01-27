@@ -14,12 +14,37 @@ class CommentController extends Controller
     */
    public function index(Note $note)
    {
+      $comments = $note->comments()->whereNull('parent_id')->with([
+         'user',
+         'children' => function ($query) {
+            $query->with([
+               'user',
+               'likes',
+               'children' => function ($subQuery) {
+                  $subQuery->with(['user', 'likes'])->withCount('likes');
+               }
+            ])->withCount('likes');
+         },
+         'likes'
+      ])->withCount(['likes', 'children'])->withExists([
+               'likes as user_liked' => function ($query) {
+                  $query->where('user_id', auth()->id());
+               }
+            ])->get();
 
-      return response()->json($note->comments()->with('user')->withCount('likes')->withExists([
-         'likes as user_liked' => function ($query) {
-            $query->where('user_id', auth()->id());
-         }
-      ])->get());
+      $comments->each(function ($comment) {
+         $comment->children->each(function ($child) {
+            $child->user_liked = $child->likes->contains('user_id', auth()->id());
+            $child->children->each(function ($grandchild) {
+               $grandchild->user_liked = $grandchild->likes->contains('user_id', auth()->id());
+            });
+         });
+      });
+
+      return response()->json([
+         'comments' => $comments,
+         'note_author_id' => $note->user_id
+      ]);
    }
 
    public function create()
@@ -31,11 +56,13 @@ class CommentController extends Controller
    {
       $validated = $request->validate([
          'content' => 'required|string|max:5000',
+         'parent_id' => 'nullable|exists:comments,id',
       ]);
 
       $comment = $note->comments()->create([
          'user_id' => auth()->id(),
          'content' => $validated['content'],
+         'parent_id' => $validated['parent_id'] ?? null,
       ]);
 
       return response()->json($comment->load('user'));

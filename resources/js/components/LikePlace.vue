@@ -1,8 +1,8 @@
 <template>
-   <button @click="like" :class="{ liked: isLiked }">
-      <span v-if="isLiked">❤️</span>
+   <button @click="like" :class="{ liked: isLiked }" class="flex items-center space-x-1">
+      <span v-if="isLiked" сlass="">❤️</span>
       <span v-else >🤍</span>
-      {{ likesCount }}
+      <p class="text-sm">{{ likesCount }}</p>
    </button>
 </template>
 

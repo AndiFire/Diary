@@ -13,6 +13,7 @@ class Comment extends Model
       'user_id',
       'note_id',
       'content',
+      'parent_id',
    ];
 
    public static array $rules = [
@@ -43,5 +44,15 @@ class Comment extends Model
    public function likes()
    {
       return $this->morphMany(Like::class, 'likeable');
+   }
+
+   public function parent()
+   {
+      return $this->belongsTo(Comment::class, 'parent_id');
+   }
+
+   public function children()
+   {
+      return $this->hasMany(Comment::class, 'parent_id');
    }
 }
