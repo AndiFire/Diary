@@ -12,6 +12,7 @@ import TimeAgo from './components/TimeAgo.vue'
 import IconLoader from './components/IconLoader.vue'
 import LikePlace from './components/LikePlace.vue'
 import ChangeAvatar from './components/ChangeAvatar.vue';
+import ChangeName from './components/ChangeName.vue';
 import NoteSearch from './components/NoteSearch.vue';
 import ProfileTabs from './components/ProfileTabs.vue';
 
@@ -23,6 +24,7 @@ app.component('time-ago', TimeAgo);
 app.component('icon', IconLoader);
 app.component('like-button', LikePlace);
 app.component('change-avatar', ChangeAvatar);
+app.component('change-name', ChangeName);
 app.component('note-search', NoteSearch);
 app.component('profile-tabs', ProfileTabs);
 

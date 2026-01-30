@@ -76,18 +76,19 @@ class UserController extends Controller
    }
 
    //    --------------Change Name-----------------
-   public function ChangeName(Request $request): RedirectResponse
+   public function changeName(Request $request): RedirectResponse
    {
-      $this->validate($request, [
-         'new_name' => ['required', 'confirmed', 'string', 'max:50'],
-
+      $request->validate([
+         'new_name' => ['required', 'string', 'max:50'],
       ]);
-      $user = Auth::user();
 
+      $user = Auth::user();
       $user->name = $request->new_name;
       $user->save();
-      Session::flash('success', 'Name Changed Successfully');
-      return redirect()->route('profile.edit');
+
+      return redirect()->route('user.edit', ['id' => $user->id])
+         ->with('success', 'Name changed successfully');
+
    }
 
    //    --------------Change Password-----------------
@@ -113,7 +114,7 @@ class UserController extends Controller
       $user->password = Hash::make($request->new_password);
       $user->save();
       Session::flash('success', 'Password Changed Successfully');
-      return redirect()->route('profile.edit');
+      return redirect()->route('user.edit');
    }
 
    public function changeAvatar(Request $request)
