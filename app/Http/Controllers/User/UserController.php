@@ -92,29 +92,27 @@ class UserController extends Controller
    }
 
    //    --------------Change Password-----------------
-   public function ChangePassword(Request $request): RedirectResponse
+   public function ChangePassword(Request $request)
    {
-      $this->validate($request, [
+      $request->validate([
          'current_password' => ['required'],
          'new_password' => ['required', 'confirmed', 'min:8', 'max:55', Rules\Password::defaults()],
-
       ]);
+
       $user = Auth::user();
 
-      //         The passwords matches
-      if (!Hash::check($request->current_password, auth()->user()->password)) {
-         throw ValidationException::withMessages(['old_password' => 'The old password is incorrect.']);
+      if (!Hash::check($request->current_password, $user->password)) {
+         return response()->json(['errors' => ['current_password' => ['The current password is incorrect.']]], 422);
       }
 
-      // Current password and new password same
-      if (strcmp($request->get('current_password'), $request->new_password) == 0) {
-         throw ValidationException::withMessages(['error_cannot_be_same' => "New Password cannot be same as your current password."]);
+      if (strcmp($request->current_password, $request->new_password) == 0) {
+         return response()->json(['errors' => ['new_password' => ['New password cannot be the same as your current password.']]], 422);
       }
 
       $user->password = Hash::make($request->new_password);
       $user->save();
-      Session::flash('success', 'Password Changed Successfully');
-      return redirect()->route('user.edit');
+
+      return response()->json(['message' => 'Password changed successfully']);
    }
 
    public function changeAvatar(Request $request)

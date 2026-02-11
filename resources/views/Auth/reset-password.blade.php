@@ -1,9 +1,9 @@
 @extends('layouts.auth')
 @section('auth.content')
 
-<section class=" min-h-screen flex items-center justify-center">
+<section class=" min-h-screen flex items-center justify-center auth-page">
     <!-- login container -->
-    <div class="relative bg-blue-200  dark:bg-zinc-800 flex  rounded-2xl shadow-lg max-w-3xl  ">
+    <div class="relative bg-bgColor dark:bg-bgColor-dark flex  rounded-2xl shadow-lg max-w-3xl  ">
 
         <!-- form -->
         <div class="md:w-1/2 px-8 py-8 ">
@@ -16,8 +16,8 @@
                 </div>
             @endif
 
-            <h2 class="font-bold text-2xl text-blue-500">Reset password</h2>
-            <p class="text-xs mt-4 text-blue-500 ">If you want to change your password, type in.</p>
+            <h2 class="font-bold text-2xl ">Reset password</h2>
+            <p class="text-xs mt-4  ">If you want to change your password, type in.</p>
 
             <!-- DATAS -->
             <form method="POST"  action="{{ route('password.update') }}"  class="flex flex-col gap-4">
@@ -25,19 +25,20 @@
                 <input type="hidden" name="token" value="{{ $request->token }}">
 
                 @csrf
-                <div>
-                    <input class="w-full p-2 mt-8 rounded-xl border {{$errors->has('email') ? 'border-red-600 placeholder-red-600' : 'p-2 rounded-xl border'}}" type="email" name="email" placeholder="Email" value="{{ old('email', $request->email) }}">
-                    @error('email')
-                    <p class="pt-1 text-red-600 text-xs">{{$message}}</p>
-                    @enderror
-                </div>
+					<div>
+						<input class=" {{$errors->has('email') ? 'border-red-600 placeholder-red-600 focus:border-red-600' : 'focus:border-activeColor dark:focus:border-activeColor-dark'}} 
+                  p-2 rounded-xl border-2 dark:border-bgColor-dark border-bgColor  focus:border-2 focus:outline-none focus:ring-0 w-full dark:bg-bgSecColor-dark bg-bgSecColor"  
+                  type="text" name="email" placeholder="Email" value="{{ old('email') }}">
+						@error('email') <p class="pt-1 text-red-600 text-xs">{{$message}}</p> @enderror
+					</div>
 
                 <!--PASSWORD-->
                 <div>
                     <div class="relative">
                         <div>
-                            <input class=" {{$errors->has('password') ? 'border-red-600 placeholder-red-600' : 'p-2 rounded-xl border'}} p-2 rounded-xl border w-full" id="password" v-model="password" type="password" name="password" placeholder="Password" >
-
+                           <input class=" {{$errors->has('password') ? 'border-red-600 placeholder-red-600 focus:border-red-600' : 'focus:border-activeColor dark:focus:border-activeColor-dark'}} 
+                           p-2 rounded-xl border-2 dark:border-bgColor-dark border-bgColor  focus:border-2 focus:outline-none focus:ring-0 w-full dark:bg-bgSecColor-dark bg-bgSecColor" 
+                           id="password" type="password" name="password" placeholder="Password" >
                             <div>
                                 <svg class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer eye-open hidden " width="16" height="16" fill="gray" viewBox="0 0 24 24" onclick="togglePasswordVisibility()" xmlns="http://www.w3.org/2000/svg" >
                                     <path d="M12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25ZM9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z" fill="#1C274C"/>
@@ -55,8 +56,9 @@
 
 
                     <div class="relative mt-4">
-                        <input class=" {{$errors->has('password') ? 'border-red-600 placeholder-red-600' : 'p-2 rounded-xl border '}} p-2 rounded-xl border w-full" id="password_confirm" v-model="passwordConfirmation" type="password" name="password_confirmation" placeholder="Confirm Password">
-
+                        <input class=" {{$errors->has('password') ? 'border-red-600 placeholder-red-600 focus:border-red-600' : 'focus:border-activeColor dark:focus:border-activeColor-dark'}} 
+                        p-2 rounded-xl border-2 dark:border-bgColor-dark border-bgColor  focus:border-2 focus:outline-none focus:ring-0 w-full dark:bg-bgSecColor-dark bg-bgSecColor" 
+                        id="password_confirm" type="password" name="password_confirmation" placeholder="Confirm Password">
                         <div>
                             <svg class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer eye-open-confirm hidden" width="16" height="16" fill="gray" viewBox="0 0 24 24" onclick="toggleConfirmPasswordVisibility()" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25ZM9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z" fill="#1C274C"/>
@@ -74,22 +76,22 @@
 
                 </div>
 
-                <button type="submit" class="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300">
+                <button type="submit" class="bg-buttonColor dark:bg-buttonColor-dark rounded-xl text-textColor dark:text-textColor-dark py-2 hover:scale-105 duration-300">
                     {{__('Save')}}
                 </button>
             </form>
 
             <!-- OR -->
-            <div class="mt-6 grid grid-cols-3 items-center text-gray-400">
+            <div class="mt-6 grid grid-cols-3 items-center ">
                 <hr class="border-gray-400">
                 <p class="text-center text-sm">OR</p>
                 <hr class="border-gray-400">
             </div>
 
             <!-- DONT HAVE AN ACCOUNT -->
-            <div class="mt-1 text-sm flex justify-between items-center text-blue-500">
+            <div class="mt-1 text-sm flex justify-between items-center ">
                 <p>Don't have an account?</p>
-                <button class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 text-[#002D74]" >
+                <button class="py-2 px-5 bg-buttonColor dark:bg-buttonColor-dark rounded-xl hover:scale-110 duration-300 text-textColor dark:text-textColor-dark" >
                     <a href="{{route('register')}}" class="{{Route::is('register') ? "active": '' }}">{{__('Sign up')}}</a>
                 </button>
             </div>

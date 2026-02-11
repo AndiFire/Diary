@@ -73,11 +73,7 @@
                      class="{{$errors->has('password') ? 'border-red-600 placeholder-red-600' : ''}} p-0 w-full bg-bgColor dark:bg-bgColor-dark border-0 border-b"
                      readonly>
 
-                  <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
-                     class="rounded-xl text-textColor-dark dark:text-textColor-dark text-sm py-1 px-4 hover:scale-105 duration-300 bg-buttonColor dark:bg-buttonColor-dark"
-                     type="button">
-                     {{ __('Change') }}
-                  </button>
+                  <change-password :user='@json($user)' @password-changed="updateUserPassword"></change-password>
 
                </div>
 

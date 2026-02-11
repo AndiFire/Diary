@@ -1,7 +1,7 @@
 <template>
    <div class="relative inline-block text-left" ref="menuContainer">
       <button @click="toggleMenu"
-         class="block relative z-10 h-8 w-8 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none transition duration-150 focus:border-blue-500 ">
+         class="block relative z-10 h-8 w-8 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none transition duration-150 focus:border-activeColor dark:focus:border-activeColor-dark ">
          <img class="h-full w-full object-cover"
                :src="user.avatar_url"
                alt="User avatar">

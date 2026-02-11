@@ -61,11 +61,11 @@ class User extends Authenticatable implements MustVerifyEmail
    public function likedNotes()
    {
       return $this->morphedByMany(
-         Note::class,        // к какой модели лайки
-         'likeable',         // имя полиморфной связи
-         'likes',            // таблица
-         'user_id',          // foreign key пользователя
-         'likeable_id'       // ключ связанной модели
+         Note::class,       
+         'likeable',        
+         'likes',            
+         'user_id',          
+         'likeable_id'       
       );
    }
       public function commentedNotes()

@@ -1,9 +1,9 @@
 @extends('layouts.auth')
 @section('auth.content')
-    <section class="min-h-screen flex items-center justify-center">
+    <section class="min-h-screen flex items-center justify-center auth-page">
 
         <!-- form -->
-        <div class="relative px-8 py-8 bg-white dark:bg-zinc-800 rounded-xl">
+        <div class="relative px-8 py-8 bg-bgColor dark:bg-bgColor-dark rounded-xl">
 
             @if (session('status') == 'verification-link-sent')
                 <div class="mb-4 flex items-center justify-center p-2 border-2 rounded-xl border-amber-500 bg-amber-100">
@@ -15,7 +15,7 @@
             @endif
 
             <div class="mb-8">
-                <svg class="w-full mb-4 text-blue-500" fill="currentColor" height="80" width="40" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.294 75.294">
+                <svg class="w-full mb-4 " fill="currentColor" height="80" width="40" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.294 75.294">
                     <g>
                         <path d="M66.097,12.089h-56.9C4.126,12.089,0,16.215,0,21.286v32.722c0,5.071,4.126,9.197,9.197,9.197h56.9
                                     c5.071,0,9.197-4.126,9.197-9.197V21.287C75.295,16.215,71.169,12.089,66.097,12.089z M61.603,18.089L37.647,33.523L13.691,18.089
@@ -27,8 +27,8 @@
                     </g>
                 </svg>
 
-                <h2 class="flex items-center justify-center font-bold text-4xl text-blue-500">Confirm Password</h2>
-                <p class="flex justify-center text-sm mt-4 text-gray-200 ">To continue We need you to confirm your password. </p>
+                <h2 class="flex items-center justify-center font-bold text-4xl ">Confirm Password</h2>
+                <p class="flex justify-center text-sm mt-4  ">To continue We need you to confirm your password. </p>
             </div>
 
             <div class="rounded-xl">
@@ -38,8 +38,10 @@
 
                     <div class="mb-4">
                         <div class="relative">
-                            <input class="p-2 rounded-xl border w-full {{$errors->has('password') ? 'border-red-600 placeholder-red-600' : 'p-2 rounded-xl border'}}" id="password" type="password" name="password" placeholder="Password" >
-
+                        <input class=" {{$errors->has('password') ? 'border-red-600 placeholder-red-600 focus:border-red-600' : 'focus:border-activeColor dark:focus:border-activeColor-dark'}} 
+                        p-2 rounded-xl border-2 dark:border-bgColor-dark border-bgColor  focus:border-2 focus:outline-none focus:ring-0 w-full dark:bg-bgSecColor-dark bg-bgSecColor" 
+                        id="password" type="password" name="password" placeholder="Password" >
+                        
                             <div>
                                 <svg class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer eye-open hidden " width="16" height="16" fill="gray" viewBox="0 0 24 24" onclick="togglePasswordVisibility()" xmlns="http://www.w3.org/2000/svg" >
                                         <path d="M12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25ZM9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z" fill="#1C274C"/>
@@ -55,7 +57,7 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="font-bold bg-[#002D74] rounded-xl text-gray-200 text-xl py-2 px-24 hover:scale-105 duration-300 ">
+                    <button type="submit" class="font-bold bg-buttonColor dark:bg-buttonColor-dark text-textColor dark:text-textColor-dark rounded-xl text-xl py-2 px-24 hover:scale-105 duration-300 ">
                         {{__('Confirm password')}}
                     </button>
                 </form>

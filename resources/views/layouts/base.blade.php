@@ -28,7 +28,7 @@
 </head>
 
 <body id="app">
-    <div class="max-w-screen-2xl flex-wrap mx-auto tracking-wide">
+    <div class="max-w-screen-2xl flex-wrap mx-auto tracking-wide ">
         @yield('content')
     </div>
 </body>

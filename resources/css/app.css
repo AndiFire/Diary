@@ -24,3 +24,13 @@
 .like:hover::before {
   background: rgba(0,0,0,.2);
 }
+
+@layer components {
+  .auth-page h1, h3, h2 {
+    @apply text-textColor dark:text-textColor-dark;
+  }
+
+  .auth-page p {
+    @apply text-textSecColor dark:text-textSecColor-dark;
+  }
+}

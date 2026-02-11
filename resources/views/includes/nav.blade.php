@@ -8,10 +8,7 @@
                </div>
             @endauth
             <a {{Route::is('diary') ? 'active': ''}} href="{{ route('diary')}}" class="flex items-center space-x-3 rtl:space-x-reverse md:order-7">
-               <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo">
-               <span class="self-center text-2xl font-semibold whitespace-nowrap text-textColor dark:text-textColor-dark hover:text-hoverColor dark:hover:text-hoverColor-dark">
-                  Diary
-               </span>
+               <img src="\images\diary-logo.png" class="h-8" alt="Diary Logo">
             </a>
 
         </div>

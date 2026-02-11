@@ -13,7 +13,7 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                <h3 class="text-xl font-semibold text-textColor dark:text-textColor-dark">
-                  Change your Nickname
+                  Change your Password
                </h3>
                <button type="button" @click="closeModal"
                   class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -28,25 +28,34 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5 text-textSecColor dark:text-textSecColor-dark">
-               <form @submit.prevent="changeName">
+               <form @submit.prevent="changePassword">
 
-                  <label for="new_name" class="block mb-1 text-sm font-medium ">New name</label>
+                  <label for="current_password" class="block mb-1 text-sm font-medium ">Current password</label>
                   <div class="relative">
-                     <input id="new_name" type="text" v-model="newName"
+                     <input id="current_password" type="password" v-model="currentPassword"
                         class="mb-4 p-2 rounded-lg text-sm border-none block w-full bg-bgColor dark:bg-bgColor-dark text-textColor dark:text-textColor-dark focus:outline-none focus:ring-0"
-                        :class="{ 'border-red-600 placeholder-red-600': errors.new_name }">
+                        :class="{ 'border-red-600 placeholder-red-600': errors.current_password }">
                   </div>
-                  <p v-if="errors.new_name" class="text-red-600 text-xs mb-4">{{ errors.new_name[0] }}</p>
+                  <p v-if="errors.current_password" class="text-red-600 text-xs mb-4">{{ errors.current_password[0] }}
+                  </p>
 
-                  <label for="new_name_confirmation"
-                     class="block mb-1 text-sm font-medium ">Confirm new name</label>
+                  <label for="new_password" class="block mb-1 text-sm font-medium ">New password</label>
                   <div class="relative">
-                     <input id="new_name_confirmation" type="text" v-model="newNameConfirmation"
-                        class="mb-4 p-2 rounded-lg text-sm border-none  block w-full bg-bgColor dark:bg-bgColor-dark text-textColor dark:text-textColor-dark focus:outline-none focus:ring-0"
-                        :class="{ 'border-red-600 placeholder-red-600': errors.new_name_confirmation }">
+                     <input id="new_password" type="password" v-model="newPassword"
+                        class="mb-4 p-2 rounded-lg text-sm border-none block w-full bg-bgColor dark:bg-bgColor-dark text-textColor dark:text-textColor-dark focus:outline-none focus:ring-0"
+                        :class="{ 'border-red-600 placeholder-red-600': errors.new_password }">
                   </div>
-                  <p v-if="errors.new_name_confirmation" class="text-red-600 text-xs mb-4">{{
-                     errors.new_name_confirmation[0] }}</p>
+                  <p v-if="errors.new_password" class="text-red-600 text-xs mb-4">{{ errors.new_password[0] }}</p>
+
+                  <label for="new_password_confirmation" class="block mb-1 text-sm font-medium ">Confirm new
+                     password</label>
+                  <div class="relative">
+                     <input id="new_password_confirmation" type="password" v-model="newPasswordConfirmation"
+                        class="mb-4 p-2 rounded-lg text-sm border-none  block w-full bg-bgColor dark:bg-bgColor-dark text-textColor dark:text-textColor-dark focus:outline-none focus:ring-0"
+                        :class="{ 'border-red-600 placeholder-red-600': errors.new_password_confirmation }">
+                  </div>
+                  <p v-if="errors.new_password_confirmation" class="text-red-600 text-xs mb-4">{{
+                     errors.new_password_confirmation[0] }}</p>
 
                   <div class="flex justify-center">
                      <button type="submit"
@@ -75,8 +84,9 @@ export default {
    },
    data() {
       return {
-         newName: this.user.name,
-         newNameConfirmation: '',
+         currentPassword: '',
+         newPassword: '',
+         newPasswordConfirmation: '',
          errors: {},
          loading: false,
          showModal: false
@@ -85,25 +95,29 @@ export default {
    methods: {
       OpenModal() {
          this.errors = {};
+         this.currentPassword = '';
+         this.newPassword = '';
+         this.newPasswordConfirmation = '';
          this.showModal = true;
       },
       closeModal() {
          this.showModal = false;
       },
 
-      async changeName() {
+      async changePassword() {
          this.loading = true;
          this.errors = {};
          try {
-            const response = await fetch('/change-name', {
+            const response = await fetch('/change-password', {
                method: 'POST',
                headers: {
-               'Content-Type': 'application/json',
-               'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                  'Content-Type': 'application/json',
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                },
                body: JSON.stringify({
-               new_name: this.newName,
-               new_name_confirmation: this.newNameConfirmation
+                  current_password: this.currentPassword,
+                  new_password: this.newPassword,
+                  new_password_confirmation: this.newPasswordConfirmation
                })
             });
 
@@ -115,12 +129,9 @@ export default {
             }
 
             // Всё ок
+            const data = await response.json();
+            alert(data.message); // Or use a better notification system
             this.closeModal();
-
-            // Ждём немного, чтобы модалка исчезла, потом редирект
-            setTimeout(() => {
-               window.location.href = `/user/edit/${this.user.id}`;
-            }, 100); 
 
          } catch (error) {
             this.errors = { general: ['Network error'] };
